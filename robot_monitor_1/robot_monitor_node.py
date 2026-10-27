@@ -1,15 +1,19 @@
 import rclpy
+import random
 from rclpy.node import Node
 from std_msgs.msg import Float32
 class RobotMonitor(Node):
+
 	def __init__(self):
 		super().__init__('robot_monitor')
 		self.battery_publisher= self.create_publisher(Float32,'/robot/battery_percentage',10)
 		self.temperature_publisher=self.create_publisher(Float32,'/robot/temperature_celcius',10)
-		self.battery=85.0
-		self.temperature=35.0
+		self.battery=60.0
+		self.temperature=12.0
 		self.timer=self.create_timer(1.0,self.publish_status)
 	def publish_status(self):
+		self.battery=random.uniform(0,100)
+		self.temperature=random.uniform(0,70)
 		battery_msg= Float32()
 		battery_msg.data = self.battery
 		self.battery_publisher.publish(battery_msg)
